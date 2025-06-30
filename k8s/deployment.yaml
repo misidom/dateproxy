@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: dateproxy
-        image: ghcr.io/misidom/dateproxy/dateproxy:latest
+        image: ghcr.io/misidom/dateproxy:latest
         ports:
         - containerPort: 8080
           name: http
