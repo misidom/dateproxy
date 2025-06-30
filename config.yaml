@@ -1,0 +1,15 @@
+port: 8080
+read_timeout: "10s"
+write_timeout: "20s"
+idle_timeout: "30s"
+
+date_ranges:
+  - start_date: "20200101"
+    end_date: "20221231"
+    service: "http://localhost:8081"
+  - start_date: "20230101"
+    end_date: "20241231"
+    service: "http://localhost:8082"
+  - start_date: "20250101"
+    end_date: "20271231"
+    service: "http://localhost:8083"

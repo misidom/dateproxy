@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dateproxy
+  namespace: dateproxy-test
+  labels:
+    app: dateproxy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dateproxy
+  template:
+    metadata:
+      labels:
+        app: dateproxy
+    spec:
+      containers:
+      - name: dateproxy
+        image: ghcr.io/misidom/dateproxy/dateproxy:latest
+        ports:
+        - containerPort: 8080
+          name: http
+        command: ["./dateproxy"]
+        args: ["--config", "/etc/config/config.yaml"]
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/config
+          readOnly: true
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+      volumes:
+      - name: config-volume
+        configMap:
+          name: dateproxy-config

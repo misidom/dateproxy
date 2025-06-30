@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dateproxy-config
+  namespace: dateproxy-test
+data:
+  config.yaml: |
+    port: 8080
+    read_timeout: "30s"
+    write_timeout: "30s"
+    idle_timeout: "120s"
+    
+    date_ranges:
+      - start_date: "20200101"
+        end_date: "20221231"
+        service: "http://service1:8080"
+      - start_date: "20230101"
+        end_date: "20241231"
+        service: "http://service2:8080"
+      - start_date: "20250101"
+        end_date: "20271231"
+        service: "http://service3:8080"
